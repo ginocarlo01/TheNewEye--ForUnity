@@ -10,6 +10,7 @@ TagManager:
   - UpDown
   - Up
   - Down
+  - OptionsUI
   layers:
   - Default
   - TransparentFX

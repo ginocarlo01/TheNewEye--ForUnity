@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using EasyTransition;
 public class InitLevelLoad : MonoBehaviour
 {
     [SerializeField] private bool canGo, alreadyGo;
@@ -13,6 +13,9 @@ public class InitLevelLoad : MonoBehaviour
     [SerializeField] private AudioSource enterSFX;
 
     [SerializeField] private AnimationClip movingDoor, endDoor;
+
+    public TransitionSettings transition;
+    public float startDelay;
 
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -57,7 +60,10 @@ public class InitLevelLoad : MonoBehaviour
 
     private void MoveToLevel()
     {
+        
         animator.Play(endDoor.name);
-        SceneManager.LoadScene("lvl" + levelIndex);
+        TransitionManager.Instance().Transition("lvl" + levelIndex, transition, startDelay);
     }
+
+
 }

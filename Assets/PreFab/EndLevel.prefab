@@ -243,7 +243,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   checkPointSFX: {fileID: 1998533440408873823}
-  nextLevelName: Level 1
-  waitBeforeNextLevel: 3
+  nextLevelName: InitLevel
+  waitBeforeNextLevel: 1.8
   releaseCheckPointFlag: {fileID: 7400000, guid: ce17e020a0037844183371ec3fc6a265, type: 2}
-  constantCheckPointFlag: {fileID: 7400000, guid: e7d9268adfc355640b8ab61159136215, type: 2}

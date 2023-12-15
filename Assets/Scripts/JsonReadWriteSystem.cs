@@ -62,10 +62,6 @@ public class JsonReadWriteSystem : MonoBehaviour
             playerData.AddNewLevelData();
         }*/
 
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Application.Quit();
-        }
     }
 
     private void WriteToFile(string filename, string jsonData)
