@@ -24,6 +24,9 @@ public class PlayerLife : MonoBehaviour
 
     private void Die()
     {
+        //Reset coins
+        GetComponent<PlayerCollider>().ResetCherries();
+
         // Play the death sound effect.
         deathSFX.Play();
 

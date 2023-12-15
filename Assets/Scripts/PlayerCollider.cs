@@ -45,4 +45,11 @@ public class PlayerCollider : MonoBehaviour
             pm.SetFloatingDown(floatingDown);
         }
     }
+
+    public void ResetCherries()
+    {
+        cherries=0;
+        UIManager.instance.UpdateCherryCount(cherries);
+        JsonReadWriteSystem.INSTANCE.playerData.arrayOfLevels[JsonReadWriteSystem.INSTANCE.currentLvlIndex].fruitsQty = cherries;
+    }
 }
