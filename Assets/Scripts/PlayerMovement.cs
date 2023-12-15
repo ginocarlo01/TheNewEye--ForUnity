@@ -16,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("OTHERS")]
     [SerializeField] private float horizontalVelocity;
     [SerializeField] private float scaleYSpeed = 1f;
+    [SerializeField] Signal pauseSignal;
 
     //components
     private Rigidbody2D rb;
@@ -96,7 +97,10 @@ public class PlayerMovement : MonoBehaviour
             UpdateAnimation();
         }
 
-        HandlePauseInput();
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            pauseSignal.Raise();
+        }
 
     }
 
@@ -134,6 +138,8 @@ public class PlayerMovement : MonoBehaviour
         {
             EndJump();
         }
+
+
     }
 
     private void EndJump()
@@ -204,13 +210,11 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-    private void HandlePauseInput()
+    public void HandlePauseInput()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            pause = !pause;
-            TogglePause(pause);
-        }
+        pause = !pause;
+        TogglePause(pause);
+        
     }
 
     private void TogglePause(bool pause)

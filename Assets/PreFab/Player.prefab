@@ -164,6 +164,7 @@ MonoBehaviour:
   jumpMultiplier: 1.2
   horizontalVelocity: 7
   scaleYSpeed: 0.1
+  pauseSignal: {fileID: 11400000, guid: e250959d05a9ea141b9814b84c466383, type: 2}
 --- !u!95 &5725971713576601103
 Animator:
   serializedVersion: 4
