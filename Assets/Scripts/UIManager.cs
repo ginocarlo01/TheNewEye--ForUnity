@@ -9,6 +9,12 @@ public class UIManager : MonoBehaviour
 
     private void Awake() { instance = this; }
 
-    public void UpdateCherryCount(int value) { cherryCount.text = "x" + value.ToString(); }
+    public void UpdateCherryCount(int value) {
+        if(cherryCount != null)
+        {
+            cherryCount.text = "x" + value.ToString();
+        }
+        
+    }
 
 }
