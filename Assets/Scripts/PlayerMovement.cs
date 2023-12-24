@@ -101,6 +101,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            Cursor.visible = !Cursor.visible;
             pauseSignal.Raise();
         }
 
