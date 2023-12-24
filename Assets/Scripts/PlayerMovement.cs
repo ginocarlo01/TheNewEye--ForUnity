@@ -254,7 +254,11 @@ public class PlayerMovement : MonoBehaviour
         {
             state = MovementState.jump;
         }
-        else if (rb.velocity.y < -5f && !IsGrounded())
+        else if (rb.velocity.y < -5f && !IsGrounded() && upCheckIfIsGrounded)
+        {
+            state = MovementState.fall;
+        }
+        else if (rb.velocity.y > 5f && !IsGrounded() && !upCheckIfIsGrounded)
         {
             state = MovementState.fall;
         }
