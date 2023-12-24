@@ -36,6 +36,7 @@ public class PlayerCollider : MonoBehaviour
             collectItemSFX.Play();
             floatingUp = !floatingUp;
             pm.SetFloatingUp(floatingUp);
+            Debug.Log("floating up!");
         }
 
         if (collision.gameObject.tag == "Down")

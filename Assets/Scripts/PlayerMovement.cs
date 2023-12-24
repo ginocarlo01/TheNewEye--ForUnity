@@ -92,10 +92,12 @@ public class PlayerMovement : MonoBehaviour
 
             HandleFall();
 
-            HandleFloating();
+            
 
             UpdateAnimation();
         }
+
+        HandleFloating();
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
