@@ -10,29 +10,31 @@ public class EnterLevelUI : MonoBehaviour
 
     [SerializeField] private TMP_Text enterLevelText;
 
-    private string text = "";
-
-    public static EnterLevelUI instance;
-
-    private void Awake()
+    private void Start()
     {
-        instance = this;
+        enterLevelUI.SetActive(false);
     }
 
-    void Update()
+    #region ObserverSubscription
+    private void OnEnable()
     {
-        if(text == "")
+        InitLevelLoad.playerEnteredDoor += SetLevelText;
+    }
+
+    private void OnDisable()
+    {
+        InitLevelLoad.playerEnteredDoor -= SetLevelText;
+    }
+    #endregion
+
+    public void SetLevelText(int level)
+    {
+        if(level == -1) { enterLevelUI.SetActive(false); }
+
+        else
         {
-            enterLevelUI.SetActive(false);
-        }
-        else{
             enterLevelUI.SetActive(true);
-            enterLevelText.text = text;
+            enterLevelText.text = "Level " + level.ToString();
         }
-    }
-
-    public void SetLevelText(string text)
-    {
-        this.text = text;
     }
 }

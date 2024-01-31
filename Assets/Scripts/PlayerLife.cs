@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -6,6 +7,8 @@ public class PlayerLife : MonoBehaviour
     private Animator animator;
 
     [SerializeField] private AudioSource deathSFX;
+
+    public static Action playerDeath;
 
     private void Start()
     {
@@ -24,8 +27,7 @@ public class PlayerLife : MonoBehaviour
 
     private void Die()
     {
-        //Reset coins
-        GetComponent<PlayerCollider>().ResetCherries();
+        playerDeath?.Invoke();
 
         // Play the death sound effect.
         deathSFX.Play();
@@ -33,8 +35,7 @@ public class PlayerLife : MonoBehaviour
         // Trigger the death animation.
         animator.SetTrigger("death");
 
-        // Stop player movement.
-        PlayerMovement.instance.StopPlayerMovement();
+        
     }
 
     private void RestartLevel()

@@ -1,10 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerCollider : MonoBehaviour
 {
-    [SerializeField] private int cherries = 0;
+    [SerializeField] private int cherriesQty = 0;
 
     [SerializeField] private AudioSource collectItemSFX;
 
@@ -12,11 +13,14 @@ public class PlayerCollider : MonoBehaviour
 
     [SerializeField] private bool floatingUp, floatingDown;
 
+    public static Action<int> cherriesQtyChanged;
+
     private void Start()
     {
         
-        cherries = JsonReadWriteSystem.INSTANCE.playerData.arrayOfLevels[JsonReadWriteSystem.INSTANCE.currentLvlIndex].fruitsQty;
-        UIManager.instance.UpdateCherryCount(cherries);
+        cherriesQty = JsonReadWriteSystem.INSTANCE.playerData.arrayOfLevels[JsonReadWriteSystem.INSTANCE.currentLvlIndex].fruitsQty;
+        //UIManager.instance.UpdateCherryCount(cherriesQty); //TODO: APLICAR OBSERVER
+        cherriesQtyChanged?.Invoke(cherriesQty);
         pm = GetComponent<PlayerMovement>();
     }
 
@@ -25,10 +29,10 @@ public class PlayerCollider : MonoBehaviour
         if (collision.gameObject.tag == "Cherry")
         {
             collectItemSFX.Play();
-            Destroy(collision.gameObject);
-            cherries++;
-            UIManager.instance.UpdateCherryCount(cherries);
-            JsonReadWriteSystem.INSTANCE.playerData.arrayOfLevels[JsonReadWriteSystem.INSTANCE.currentLvlIndex].fruitsQty = cherries;
+            collision.gameObject.SetActive(false);
+            cherriesQty++;
+            cherriesQtyChanged?.Invoke(cherriesQty);
+            JsonReadWriteSystem.INSTANCE.playerData.arrayOfLevels[JsonReadWriteSystem.INSTANCE.currentLvlIndex].fruitsQty = cherriesQty;
         }
 
         if (collision.gameObject.tag == "Up")
@@ -48,8 +52,20 @@ public class PlayerCollider : MonoBehaviour
 
     public void ResetCherries()
     {
-        cherries=0;
-        UIManager.instance.UpdateCherryCount(cherries);
-        JsonReadWriteSystem.INSTANCE.playerData.arrayOfLevels[JsonReadWriteSystem.INSTANCE.currentLvlIndex].fruitsQty = cherries;
+        cherriesQty=0;
+        cherriesQtyChanged?.Invoke(cherriesQty);
+        JsonReadWriteSystem.INSTANCE.playerData.arrayOfLevels[JsonReadWriteSystem.INSTANCE.currentLvlIndex].fruitsQty = cherriesQty;
     }
+
+    #region ObserverSubscription
+    private void OnEnable()
+    {
+        PlayerLife.playerDeath += ResetCherries;
+    }
+
+    private void OnDisable()
+    {
+        PlayerLife.playerDeath -= ResetCherries;
+    }
+    #endregion
 }

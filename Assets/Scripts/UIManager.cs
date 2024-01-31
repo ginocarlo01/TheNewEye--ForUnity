@@ -9,6 +9,18 @@ public class UIManager : MonoBehaviour
 
     private void Awake() { instance = this; }
 
+    #region ObserverSubscription
+    private void OnEnable()
+    {
+        PlayerCollider.cherriesQtyChanged += UpdateCherryCount;
+    }
+
+    private void OnDisable()
+    {
+        PlayerCollider.cherriesQtyChanged -= UpdateCherryCount;
+    }
+    #endregion
+
     public void UpdateCherryCount(int value) {
         if(cherryCount != null)
         {

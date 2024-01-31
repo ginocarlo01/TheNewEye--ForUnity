@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using EasyTransition;
+using System;
 public class InitLevelLoad : MonoBehaviour
 {
-    [SerializeField] private bool canGo, alreadyGo;
+    private bool playerInside, playerGone;
+    
     [SerializeField] private int levelIndex;
 
     [SerializeField] private Animator animator;
@@ -17,17 +19,19 @@ public class InitLevelLoad : MonoBehaviour
     public TransitionSettings transition;
     public float startDelay;
 
+    public static Action<int> playerEnteredDoor;
+    public static Action playerEnteredLevel;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        EnterLevelUI.instance.SetLevelText("Level " + (levelIndex+1));
-        canGo = true;
+        playerEnteredDoor?.Invoke(levelIndex + 1);
+        playerInside = true;
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        EnterLevelUI.instance.SetLevelText("");
-        canGo = false;
+        playerEnteredDoor?.Invoke(-1);
+        playerInside = false;
     }
 
     private void Start()
@@ -44,10 +48,10 @@ public class InitLevelLoad : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetButtonDown("Jump") && canGo && !alreadyGo)
+        if (Input.GetButtonDown("Jump") && playerInside && !playerGone)
         {
-            PlayerMovement.instance.StopPlayerMovement();
-            alreadyGo = true;
+            playerEnteredLevel?.Invoke();
+            playerGone = true;
             enterSFX.Play();
             animator.Play(movingDoor.name);
         }
@@ -60,7 +64,6 @@ public class InitLevelLoad : MonoBehaviour
 
     private void MoveToLevel()
     {
-        
         animator.Play(endDoor.name);
         TransitionManager.Instance().Transition("lvl" + levelIndex, transition, startDelay);
     }

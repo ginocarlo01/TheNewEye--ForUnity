@@ -362,4 +362,18 @@ public class PlayerMovement : MonoBehaviour
         rb.bodyType = RigidbodyType2D.Static;
         canMove = false;
     }
+
+    #region ObserverSubscription
+    private void OnEnable()
+    {
+        InitLevelLoad.playerEnteredLevel += StopPlayerMovement;
+        PlayerLife.playerDeath += StopPlayerMovement;
+    }
+
+    private void OnDisable()
+    {
+        InitLevelLoad.playerEnteredLevel -= StopPlayerMovement;
+        PlayerLife.playerDeath -= StopPlayerMovement;
+    }
+    #endregion
 }
