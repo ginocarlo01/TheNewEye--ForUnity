@@ -60,6 +60,7 @@ public class PlayerData : MonoBehaviour
         int currentLength = arrayOfLevels.Length;
 
         ListOfLevels[] newArray = new ListOfLevels[currentLength + 1];
+
         for (int i = 0; i < currentLength; i++)
         {
             newArray[i] = arrayOfLevels[i];
