@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,8 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class LoadNextLevel : MonoBehaviour
 {
-    [SerializeField] private AudioSource checkPointSFX;
-
     [SerializeField] private string nextLevelName;
 
     [SerializeField] private float waitBeforeNextLevel = 2f;
@@ -16,6 +15,10 @@ public class LoadNextLevel : MonoBehaviour
     private Animator animator;
 
     [SerializeField] private AnimationClip releaseCheckPointFlag;
+
+    [SerializeField] private SFX finishLevelSFX;
+
+    public static Action<SFX> finishLevelActionSFX;
 
     private void Start()
     {
@@ -29,7 +32,8 @@ public class LoadNextLevel : MonoBehaviour
         {
             animator.Play(releaseCheckPointFlag.name);
             touchedCheckPoint = true;
-            checkPointSFX.Play();
+            finishLevelActionSFX?.Invoke(finishLevelSFX);
+
             Invoke("CompleteLevel", waitBeforeNextLevel);
         }
          

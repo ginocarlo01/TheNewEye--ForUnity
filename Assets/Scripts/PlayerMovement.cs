@@ -7,12 +7,13 @@ public class PlayerMovement : MonoBehaviour
 {
     [Header("JUMP")]
     [SerializeField] private float jumpForce;
-    [SerializeField] private AudioSource jumpSFX;
     [SerializeField] private LayerMask layerJumpableGround;
     [SerializeField] private float fallMutiplier, fallVelocityMax;
     [SerializeField] private float jumpTime;
     [SerializeField] private float jumpMultiplier;
     private Vector2 vecGravity;
+    public static Action<SFX> jumpActionSFX;
+    [SerializeField] protected SFX jumpSFX;
 
     [Header("OTHERS")]
     [SerializeField] private float horizontalVelocity;
@@ -46,8 +47,7 @@ public class PlayerMovement : MonoBehaviour
     //instance
     public static PlayerMovement instance;
 
-    public static Action<SFX> collectedActionSFX;
-    [SerializeField] protected SFX audioName;
+    
 
     private void Awake()
     {
@@ -96,8 +96,6 @@ public class PlayerMovement : MonoBehaviour
 
             HandleFall();
 
-            
-
             UpdateAnimation();
         }
 
@@ -145,8 +143,6 @@ public class PlayerMovement : MonoBehaviour
         {
             EndJump();
         }
-
-
     }
 
     private void EndJump()
@@ -162,7 +158,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void StartJump()
     {
-        jumpSFX.Play();
+        jumpActionSFX?.Invoke(jumpSFX);
         jumpCounter = 0;
         rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         pressingJump = true;

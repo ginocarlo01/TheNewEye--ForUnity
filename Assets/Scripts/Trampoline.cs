@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,8 +6,11 @@ using UnityEngine;
 public class Trampoline : MonoBehaviour
 {
     [SerializeField] float bounce = 20f;
-    [SerializeField] private AudioSource trampolineSFX;
     private Animator animator;
+
+    [SerializeField] private SFX trampolineSFX;
+
+    public static Action<SFX> trampolineActionSFX;
 
     private void Start() { animator = GetComponent<Animator>(); }
 
@@ -14,7 +18,7 @@ public class Trampoline : MonoBehaviour
     {
         if(collision.gameObject.tag == "Player")
         {
-            trampolineSFX.Play();
+            trampolineActionSFX?.Invoke(trampolineSFX);
             animator.SetBool("collideToPlayer", true);
             collision.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.up * bounce, ForceMode2D.Impulse); //apply force to the player
         }

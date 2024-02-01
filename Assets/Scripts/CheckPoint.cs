@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,7 +11,9 @@ public class CheckPoint : MonoBehaviour
 
     [SerializeField] private AnimationClip releaseCheckPointFlag, constantCheckPointFlag;
 
-    [SerializeField] private AudioSource checkPointSFX;
+    [SerializeField] private SFX checkPointSFX;
+
+    public static Action<SFX> checkPointActionSFX;
 
     private void Start()
     {
@@ -24,7 +27,7 @@ public class CheckPoint : MonoBehaviour
         {
             touchedCheckPoint = true;
             animator.Play(releaseCheckPointFlag.name);
-            checkPointSFX.Play();
+            checkPointActionSFX?.Invoke(checkPointSFX);
             JsonReadWriteSystem.INSTANCE.playerData.arrayOfLevels[JsonReadWriteSystem.INSTANCE.currentLvlIndex].lastLocation = transform.position;
         }
     }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +9,8 @@ public class UpDownCollider : MonoBehaviour
 
     private Animator animator;
 
-    [SerializeField] private AudioSource jumpSFX;
+    public static Action<SFX> trampolineActionSFX;
+    [SerializeField] protected SFX trampolineSFX;
 
     private void Start()
     {
@@ -18,9 +20,12 @@ public class UpDownCollider : MonoBehaviour
     //collision with player
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        canChangeTag = true;
-        jumpSFX.Play();
-        animator.SetBool("collideToPlayer", true);
+        if (collision.tag == "Player")
+        {
+            canChangeTag = true;
+            trampolineActionSFX?.Invoke(trampolineSFX);
+            animator.SetBool("collideToPlayer", true);
+        }
     }
 
     //exit collision with player

@@ -10,29 +10,20 @@ public class InitLevelLoad : MonoBehaviour
     
     [SerializeField] private int levelIndex;
 
-    [SerializeField] private Animator animator;
-
-    [SerializeField] private AudioSource enterSFX;
-
+    [Header("Animation Settings")]
+    private Animator animator;
     [SerializeField] private AnimationClip movingDoor, endDoor;
 
+    [Header("Transition Settings")]
     public TransitionSettings transition;
     public float startDelay;
 
+    //Actions
     public static Action<int> playerEnteredDoor;
     public static Action playerEnteredLevel;
+    public static Action<SFX> playerEnterActionSFX;
+    [SerializeField] private SFX playerEnterSFX;
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        playerEnteredDoor?.Invoke(levelIndex + 1);
-        playerInside = true;
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        playerEnteredDoor?.Invoke(-1);
-        playerInside = false;
-    }
 
     private void Start()
     {
@@ -52,7 +43,7 @@ public class InitLevelLoad : MonoBehaviour
         {
             playerEnteredLevel?.Invoke();
             playerGone = true;
-            enterSFX.Play();
+            playerEnterActionSFX?.Invoke(playerEnterSFX);
             animator.Play(movingDoor.name);
         }
     }
@@ -68,5 +59,16 @@ public class InitLevelLoad : MonoBehaviour
         TransitionManager.Instance().Transition("lvl" + levelIndex, transition, startDelay);
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        playerEnteredDoor?.Invoke(levelIndex + 1);
+        playerInside = true;
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        playerEnteredDoor?.Invoke(-1);
+        playerInside = false;
+    }
 
 }

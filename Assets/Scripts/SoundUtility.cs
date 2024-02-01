@@ -2,5 +2,9 @@ public enum SFX
 {
     CollectItem,
     PlayerDeath,
-    Play
+    PlayerJump,
+    CheckPoint,
+    EnterLevel,
+    FinishLevel,
+    Trampoline
 }

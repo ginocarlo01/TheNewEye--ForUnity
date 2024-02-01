@@ -7,14 +7,13 @@ using UnityEngine.Networking;
 public class Collectable : MonoBehaviour
 {
     public static Action<SFX> collectedActionSFX;
-
     public static Action<CollectableNames, int> collectedAction;
 
     [SerializeField] protected int qty = 1;
 
     [SerializeField] protected CollectableNames collectableName;
 
-    [SerializeField] protected SFX audioName;
+    [SerializeField] protected SFX collectedSFX;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -22,7 +21,7 @@ public class Collectable : MonoBehaviour
         {
             
             collectedAction?.Invoke(collectableName, qty);
-            collectedActionSFX?.Invoke(audioName);
+            collectedActionSFX?.Invoke(collectedSFX);
             //JsonReadWriteSystem.INSTANCE.playerData.arrayOfLevels[JsonReadWriteSystem.INSTANCE.currentLvlIndex].fruitsQty = qty; //TODO: there is no need to update this every time we collect one, we just need to do this once we ie
             //TODO: FIX THE LINE ABOVE!
 

@@ -36,12 +36,7 @@ public class SoundPlayer : MonoBehaviour
         }
     }
 
-    public void PlaySound(AudioClip clip)
-    {
-        _effectsSource.PlayOneShot(clip);
-    }
-
-    public void PlaySoundNew(SFX sfx)
+    public void PlaySound(SFX sfx)
     {
         if (audioClips.ContainsKey(sfx))
         {
@@ -52,14 +47,26 @@ public class SoundPlayer : MonoBehaviour
     #region ObserverSubscription
     private void OnEnable()
     {
-        Collectable.collectedActionSFX += PlaySoundNew;
-        PlayerLife.playerDeathSFX += PlaySoundNew;
+        Collectable.collectedActionSFX += PlaySound;
+        PlayerLife.playerDeathSFX += PlaySound;
+        PlayerMovement.jumpActionSFX += PlaySound;
+        CheckPoint.checkPointActionSFX += PlaySound;
+        InitLevelLoad.playerEnterActionSFX += PlaySound;
+        LoadNextLevel.finishLevelActionSFX += PlaySound;
+        Trampoline.trampolineActionSFX += PlaySound;
+        UpDownCollider.trampolineActionSFX += PlaySound;
     }
 
     private void OnDisable()
     {
-        Collectable.collectedActionSFX -= PlaySoundNew;
-        PlayerLife.playerDeathSFX -= PlaySoundNew;
+        Collectable.collectedActionSFX -= PlaySound;
+        PlayerLife.playerDeathSFX -= PlaySound;
+        PlayerMovement.jumpActionSFX -= PlaySound;
+        CheckPoint.checkPointActionSFX -= PlaySound;
+        InitLevelLoad.playerEnterActionSFX -= PlaySound;
+        LoadNextLevel.finishLevelActionSFX -= PlaySound;
+        Trampoline.trampolineActionSFX -= PlaySound;
+        UpDownCollider.trampolineActionSFX -= PlaySound;
     }
     #endregion
 
