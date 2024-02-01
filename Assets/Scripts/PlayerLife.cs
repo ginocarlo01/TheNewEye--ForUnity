@@ -6,9 +6,10 @@ public class PlayerLife : MonoBehaviour
 {
     private Animator animator;
 
-    [SerializeField] private AudioSource deathSFX;
+    [SerializeField] private SFX deathSFX;
 
     public static Action playerDeath;
+    public static Action<SFX> playerDeathSFX;
 
     private void Start()
     {
@@ -16,22 +17,11 @@ public class PlayerLife : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        // Check if the player collided with traps.
-        if (collision.gameObject.CompareTag("Traps"))
-        {
-            Die();
-        }
-    }
 
-    private void Die()
+    public void Die()
     {
         playerDeath?.Invoke();
-
-        // Play the death sound effect.
-        deathSFX.Play();
-
+        playerDeathSFX?.Invoke(deathSFX);
         // Trigger the death animation.
         animator.SetTrigger("death");
 

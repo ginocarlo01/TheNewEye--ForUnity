@@ -26,7 +26,6 @@ public class CheckPoint : MonoBehaviour
             animator.Play(releaseCheckPointFlag.name);
             checkPointSFX.Play();
             JsonReadWriteSystem.INSTANCE.playerData.arrayOfLevels[JsonReadWriteSystem.INSTANCE.currentLvlIndex].lastLocation = transform.position;
-            Debug.Log("Acabou de gravar o checkpoint!");
         }
     }
 

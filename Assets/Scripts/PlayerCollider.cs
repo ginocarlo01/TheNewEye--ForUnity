@@ -13,27 +13,23 @@ public class PlayerCollider : MonoBehaviour
 
     [SerializeField] private bool floatingUp, floatingDown;
 
-    public static Action<int> cherriesQtyChanged;
 
     private void Start()
     {
         
-        cherriesQty = JsonReadWriteSystem.INSTANCE.playerData.arrayOfLevels[JsonReadWriteSystem.INSTANCE.currentLvlIndex].fruitsQty;
-        //UIManager.instance.UpdateCherryCount(cherriesQty); //TODO: APLICAR OBSERVER
-        cherriesQtyChanged?.Invoke(cherriesQty);
+        
         pm = GetComponent<PlayerMovement>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Cherry")
+        /*if (collision.gameObject.tag == "Cherry")
         {
             collectItemSFX.Play();
             collision.gameObject.SetActive(false);
             cherriesQty++;
             cherriesQtyChanged?.Invoke(cherriesQty);
-            JsonReadWriteSystem.INSTANCE.playerData.arrayOfLevels[JsonReadWriteSystem.INSTANCE.currentLvlIndex].fruitsQty = cherriesQty;
-        }
+         }*/
 
         if (collision.gameObject.tag == "Up")
         {
@@ -49,23 +45,14 @@ public class PlayerCollider : MonoBehaviour
             pm.SetFloatingDown(floatingDown);
         }
     }
-
+    
     public void ResetCherries()
     {
         cherriesQty=0;
-        cherriesQtyChanged?.Invoke(cherriesQty);
+        //cherriesQtyChanged?.Invoke(cherriesQty);
+        //TODO: FIX THE LINE ABOVE!
         JsonReadWriteSystem.INSTANCE.playerData.arrayOfLevels[JsonReadWriteSystem.INSTANCE.currentLvlIndex].fruitsQty = cherriesQty;
     }
 
-    #region ObserverSubscription
-    private void OnEnable()
-    {
-        PlayerLife.playerDeath += ResetCherries;
-    }
-
-    private void OnDisable()
-    {
-        PlayerLife.playerDeath -= ResetCherries;
-    }
-    #endregion
+    
 }
