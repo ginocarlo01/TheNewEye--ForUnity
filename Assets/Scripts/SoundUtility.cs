@@ -1,5 +1,6 @@
 public enum SFX
 {
     CollectItem,
-    PlayerDeath
+    PlayerDeath,
+    Play
 }

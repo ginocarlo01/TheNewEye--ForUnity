@@ -13,19 +13,15 @@ public class PlayerLife : MonoBehaviour
 
     private void Start()
     {
-        // Get the Animator component for later use.
         animator = GetComponent<Animator>();
     }
-
 
     public void Die()
     {
         playerDeath?.Invoke();
         playerDeathSFX?.Invoke(deathSFX);
-        // Trigger the death animation.
-        animator.SetTrigger("death");
 
-        
+        animator.SetTrigger("death"); 
     }
 
     private void RestartLevel()

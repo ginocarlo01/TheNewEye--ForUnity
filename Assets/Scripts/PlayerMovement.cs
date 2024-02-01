@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -44,6 +45,9 @@ public class PlayerMovement : MonoBehaviour
 
     //instance
     public static PlayerMovement instance;
+
+    public static Action<SFX> collectedActionSFX;
+    [SerializeField] protected SFX audioName;
 
     private void Awake()
     {
