@@ -67,7 +67,7 @@ public class CollectableManager : MonoBehaviour
             collectableQty[key] = 0;
         }
 
-        JsonReadWriteSystem.INSTANCE.playerData.arrayOfLevels[JsonReadWriteSystem.INSTANCE.currentLvlIndex].fruitsQty = 0;
+        //JsonReadWriteSystem.INSTANCE.playerData.arrayOfLevels[JsonReadWriteSystem.INSTANCE.currentLvlIndex].fruitsQty = 0;
         
         //todo: fix the json instance above
     }

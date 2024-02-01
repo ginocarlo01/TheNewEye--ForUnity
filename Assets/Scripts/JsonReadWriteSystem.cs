@@ -2,6 +2,7 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
 
 public class JsonReadWriteSystem : MonoBehaviour
 {
@@ -16,7 +17,7 @@ public class JsonReadWriteSystem : MonoBehaviour
     private struct ListOfLevels
     {
         public Vector3 lastLocation;
-        public int fruitsQty;
+        public Dictionary<CollectableNames, int> collectableQty;
         public bool levelCompleted;
     }
 
@@ -34,6 +35,7 @@ public class JsonReadWriteSystem : MonoBehaviour
 
         Load();
 
+        /*
         playerData.AddNewLevelData();
         playerData.AddNewLevelData();
         playerData.AddNewLevelData();
@@ -41,6 +43,7 @@ public class JsonReadWriteSystem : MonoBehaviour
         playerData.AddNewLevelData();
         playerData.AddNewLevelData();
         playerData.AddNewLevelData();
+        */
     }
 
     private void Start()
@@ -67,6 +70,7 @@ public class JsonReadWriteSystem : MonoBehaviour
     private void WriteToFile(string filename, string jsonData)
     {
         string path = GetFilePath(filename);
+
         FileStream fileStream = new FileStream(path, FileMode.Create);
         using (StreamWriter writer = new StreamWriter(fileStream))
         {
@@ -115,10 +119,50 @@ public class JsonReadWriteSystem : MonoBehaviour
     public void ResetData()
     {
         playerData.lastCheckPoint = Vector3.zero;
-        playerData.cherriesQty = 0;
+        //playerData.cherriesQty = 0;
+        //TODO: FIX ABOVE!
         playerData.ResetData();
         Save();
     }
 
-    
+    private void OnApplicationQuit()
+    {
+        Save();
+    }
+
+    private void OnDestroy()
+    {
+        Save();
+    }
+
+    private void UpdateLastPosition(Vector3 newPosition)
+    {
+        playerData.arrayOfLevels[currentLvlIndex].lastLocation = newPosition;
+    }
+
+    private void CompleteLevel()
+    {
+        playerData.ChangeBoolAtIndex(currentLvlIndex, true);
+    }
+
+    private void UpdateCollectableData()
+    {
+
+    }
+
+    #region ObserverSubscription
+    private void OnEnable()
+    {
+        CheckPoint.saveCheckPointAction += UpdateLastPosition;
+        LoadNextLevel.finishLevelAction += CompleteLevel;
+        
+    }
+
+    private void OnDisable()
+    {
+        CheckPoint.saveCheckPointAction -= UpdateLastPosition;
+        LoadNextLevel.finishLevelAction -= CompleteLevel;
+
+    }
+    #endregion
 }

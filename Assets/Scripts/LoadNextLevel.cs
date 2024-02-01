@@ -20,6 +20,8 @@ public class LoadNextLevel : MonoBehaviour
 
     public static Action<SFX> finishLevelActionSFX;
 
+    public static Action finishLevelAction;
+
     private void Start()
     {
         animator = GetComponent<Animator>();    
@@ -41,14 +43,11 @@ public class LoadNextLevel : MonoBehaviour
 
     private void CompleteLevel()
     {
-        JsonReadWriteSystem.INSTANCE.playerData.ChangeBoolAtIndex(JsonReadWriteSystem.INSTANCE.currentLvlIndex, true);
+        finishLevelAction?.Invoke();
         Debug.Log("trocou o level completed");
         Debug.Log("novo level completed: " + JsonReadWriteSystem.INSTANCE.playerData.arrayOfLevels[JsonReadWriteSystem.INSTANCE.currentLvlIndex].levelCompleted);
-        JsonReadWriteSystem.INSTANCE.Save();
         SceneManager.LoadScene(nextLevelName);
     }
-    public void startConstantCheckPointFlag()
-    {
-        
-    }
+    
+
 }

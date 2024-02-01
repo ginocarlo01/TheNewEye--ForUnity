@@ -15,6 +15,8 @@ public class CheckPoint : MonoBehaviour
 
     public static Action<SFX> checkPointActionSFX;
 
+    public static Action<Vector3> saveCheckPointAction;
+
     private void Start()
     {
         animator = GetComponent<Animator>();
@@ -28,7 +30,7 @@ public class CheckPoint : MonoBehaviour
             touchedCheckPoint = true;
             animator.Play(releaseCheckPointFlag.name);
             checkPointActionSFX?.Invoke(checkPointSFX);
-            JsonReadWriteSystem.INSTANCE.playerData.arrayOfLevels[JsonReadWriteSystem.INSTANCE.currentLvlIndex].lastLocation = transform.position;
+            saveCheckPointAction?.Invoke(transform.position);
         }
     }
 

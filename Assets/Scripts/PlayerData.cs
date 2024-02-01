@@ -5,13 +5,21 @@ using UnityEngine;
 public class PlayerData : MonoBehaviour
 {
     public Vector3 lastCheckPoint;
-    public int cherriesQty;
+    
+
+    [System.Serializable]
+    public class CollectableData
+    {
+        public CollectableNames collectableName;
+        public int quantity;
+
+    }
 
     [System.Serializable]
     public struct ListOfLevels
     {
         public Vector3 lastLocation;
-        public int fruitsQty;
+        public Dictionary<CollectableNames, int> collectableQty;
         public bool levelCompleted;
     }
 
@@ -39,7 +47,7 @@ public class PlayerData : MonoBehaviour
             ListOfLevels newData = new ListOfLevels
             {
                 lastLocation = Vector3.zero,
-                fruitsQty = 0,
+                //fruitsQty = 0,
                 levelCompleted = false
             };
 
@@ -50,17 +58,20 @@ public class PlayerData : MonoBehaviour
     public void AddNewLevelData()
     {
         int currentLength = arrayOfLevels.Length;
+
         ListOfLevels[] newArray = new ListOfLevels[currentLength + 1];
         for (int i = 0; i < currentLength; i++)
         {
             newArray[i] = arrayOfLevels[i];
         }
+
         newArray[currentLength] = new ListOfLevels
         {
             lastLocation = Vector3.zero,
-            fruitsQty = 0,
+            //fruitsQty = 0,
             levelCompleted = false
         };
+
         arrayOfLevels = newArray;
     }
 }
