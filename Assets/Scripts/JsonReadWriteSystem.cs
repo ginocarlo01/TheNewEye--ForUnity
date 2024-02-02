@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
+using System;
 
 public class JsonReadWriteSystem : MonoBehaviour
 {
@@ -14,12 +15,9 @@ public class JsonReadWriteSystem : MonoBehaviour
 
     public int currentLvlIndex;
 
-    private struct ListOfLevels
-    {
-        public Vector3 lastLocation;
-        public Dictionary<CollectableNames, int> collectableQty;
-        public bool levelCompleted;
-    }
+    public int qtyOfLevels = 6;
+
+    public static Action<List<PlayerData.CollectableData>> CollectableDataLoadedAction;
 
     private void Awake()
     {
@@ -34,6 +32,32 @@ public class JsonReadWriteSystem : MonoBehaviour
         //DontDestroyOnLoad(gameObject);
 
         Load();
+
+        Debug.Log("array of levels: " + playerData.arrayOfLevels.Count);
+        Debug.Log("array of data list: " + playerData.collectableDataList.Count);
+
+        if(playerData.collectableDataList.Count == 0)
+        {
+            playerData.AddNewCollectableData();
+        }
+
+        CollectableDataLoadedAction?.Invoke(playerData.collectableDataList);
+
+        if(playerData.arrayOfLevels.Count > qtyOfLevels )
+        {
+            for(int i = playerData.arrayOfLevels.Count; i > qtyOfLevels; i++)
+            {
+               playerData.arrayOfLevels.RemoveAt(i);
+            }
+        }
+
+        else
+        {
+            while(playerData.arrayOfLevels.Count < qtyOfLevels)
+            {
+                playerData.AddNewLevelData();
+            }
+        }
 
         /*
         playerData.AddNewLevelData();
@@ -118,7 +142,7 @@ public class JsonReadWriteSystem : MonoBehaviour
 
     public void ResetData()
     {
-        playerData.lastCheckPoint = Vector3.zero;
+        //playerData.lastCheckPoint = Vector3.zero;
         //playerData.cherriesQty = 0;
         //TODO: FIX ABOVE!
         playerData.ResetData();
@@ -132,12 +156,16 @@ public class JsonReadWriteSystem : MonoBehaviour
 
     private void OnDestroy()
     {
+        playerData.PrintCollectableDataList();
         Save();
     }
 
     private void UpdateLastPosition(Vector3 newPosition)
     {
-        playerData.arrayOfLevels[currentLvlIndex].lastLocation = newPosition;
+        PlayerData.LevelData new_ = playerData.arrayOfLevels[currentLvlIndex];
+        new_.lastLocation = newPosition;
+        playerData.arrayOfLevels[currentLvlIndex] = new_;
+
     }
 
     private void CompleteLevel()
@@ -145,9 +173,9 @@ public class JsonReadWriteSystem : MonoBehaviour
         playerData.ChangeBoolAtIndex(currentLvlIndex, true);
     }
 
-    private void UpdateCollectableData()
+    private void UpdateCollectableData(Dictionary<CollectableNames, int> collectableQty_)
     {
-
+        playerData.SaveCollectableData(collectableQty_);
     }
 
     #region ObserverSubscription
@@ -155,14 +183,16 @@ public class JsonReadWriteSystem : MonoBehaviour
     {
         CheckPoint.saveCheckPointAction += UpdateLastPosition;
         LoadNextLevel.finishLevelAction += CompleteLevel;
-        
+        PlayerMovement.updateSpawnAction += UpdateLastPosition;
+        CollectableManager.saveDataAction += UpdateCollectableData;
     }
 
     private void OnDisable()
     {
         CheckPoint.saveCheckPointAction -= UpdateLastPosition;
         LoadNextLevel.finishLevelAction -= CompleteLevel;
-
+        PlayerMovement.updateSpawnAction -= UpdateLastPosition;
+        CollectableManager.saveDataAction -= UpdateCollectableData;
     }
     #endregion
 }

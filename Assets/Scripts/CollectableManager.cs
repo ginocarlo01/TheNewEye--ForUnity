@@ -18,11 +18,12 @@ public class CollectableManager : MonoBehaviour
 
     public static Action<CollectableNames, int> updateUICollectable;
 
+    public static Action<Dictionary<CollectableNames, int>> saveDataAction;
+
     private void Start()
     {
-        //JsonReadWriteSystem.INSTANCE.playerData.arrayOfLevels[JsonReadWriteSystem.INSTANCE.currentLvlIndex].fruitsQty;
-        //TODO: FIX THE LINE ABOVE
-        InitializeDictionary();
+        
+        InitalizeList(JsonReadWriteSystem.INSTANCE.playerData.collectableDataList);
     }
 
     private void InitializeDictionary()
@@ -31,21 +32,43 @@ public class CollectableManager : MonoBehaviour
 
         foreach (var collectableData in collectableDataArray)
         {
+            Debug.Log("is going to add to the dict");
             collectableQty.Add(collectableData.collectableName, collectableData.quantity);
+            updateUICollectable?.Invoke(collectableData.collectableName, collectableData.quantity);
         }
     }
+
+    private void InitalizeList(List<PlayerData.CollectableData> collectableDatas)
+    {
+        collectableDataArray = new CollectableData[collectableDatas.Count];
+
+        for (int i = 0; i < collectableDatas.Count; i++)
+        {
+            collectableDataArray[i] = new CollectableData
+            {
+                collectableName = collectableDatas[i].collectableName,
+                quantity = collectableDatas[i].quantity
+            };
+        }
+
+        InitializeDictionary();
+    }
+
+
 
     #region ObserverSubscription
     private void OnEnable()
     {
         Collectable.collectedAction += UpdateCollectableQty;
         PlayerLife.playerDeath += CleanCollectableData;
+        CheckPoint.saveCheckPointAction += SaveDataCheckPoint;
     }
 
     private void OnDisable()
     {
         Collectable.collectedAction -= UpdateCollectableQty;
         PlayerLife.playerDeath -= CleanCollectableData;
+        CheckPoint.saveCheckPointAction -= SaveDataCheckPoint;
     }
     #endregion
 
@@ -72,5 +95,8 @@ public class CollectableManager : MonoBehaviour
         //todo: fix the json instance above
     }
 
-    
+    public void SaveDataCheckPoint(Vector3 uselessData)
+    {
+        saveDataAction?.Invoke(collectableQty);
+    }
 }

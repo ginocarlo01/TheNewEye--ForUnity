@@ -19,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float horizontalVelocity;
     [SerializeField] private float scaleYSpeed = 1f;
     [SerializeField] Signal pauseSignal;
+    public static Action<Vector3> updateSpawnAction;
 
     //components
     private Rigidbody2D rb;
@@ -334,13 +335,16 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!canMove)
         {
-            if (JsonReadWriteSystem.INSTANCE.playerData.arrayOfLevels[JsonReadWriteSystem.INSTANCE.currentLvlIndex].lastLocation != Vector3.zero)
+            PlayerData.LevelData currentData = JsonReadWriteSystem.INSTANCE.playerData.arrayOfLevels[JsonReadWriteSystem.INSTANCE.currentLvlIndex];
+            Vector3 currentPosition = currentData.lastLocation;
+            if (currentPosition != Vector3.zero)
             {
-                transform.position = JsonReadWriteSystem.INSTANCE.playerData.arrayOfLevels[JsonReadWriteSystem.INSTANCE.currentLvlIndex].lastLocation;
+                transform.position = currentPosition;
             }
             else
             {
-                JsonReadWriteSystem.INSTANCE.playerData.arrayOfLevels[JsonReadWriteSystem.INSTANCE.currentLvlIndex].lastLocation = transform.position;
+                //JsonReadWriteSystem.INSTANCE.playerData.arrayOfLevels[JsonReadWriteSystem.INSTANCE.currentLvlIndex].lastLocation = transform.position;
+                updateSpawnAction?.Invoke(transform.position);
             }
 
             canMove = true;

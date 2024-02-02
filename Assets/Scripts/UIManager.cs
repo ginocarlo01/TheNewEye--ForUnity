@@ -12,7 +12,7 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         if(cherryCount == null) { Debug.LogWarning("Cherry count text is null!"); }
-        cherryCount.text = "x" + "0";
+        //cherryCount.text = "x" + "0";
     }
 
     #region ObserverSubscription
@@ -28,6 +28,7 @@ public class UIManager : MonoBehaviour
     #endregion
 
     public void UpdateCollectableQty(CollectableNames collectableNames, int qty) {
+        Debug.Log("He was heard!" + qty);
         cherryCount.text = "x" + qty.ToString();
 
     }
