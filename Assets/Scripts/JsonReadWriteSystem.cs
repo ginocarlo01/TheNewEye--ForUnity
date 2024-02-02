@@ -29,12 +29,9 @@ public class JsonReadWriteSystem : MonoBehaviour
 
         INSTANCE = this;
 
-        //DontDestroyOnLoad(gameObject);
 
         Load();
 
-        Debug.Log("array of levels: " + playerData.arrayOfLevels.Count);
-        Debug.Log("array of data list: " + playerData.collectableDataList.Count);
 
         if(playerData.collectableDataList.Count == 0)
         {
@@ -59,15 +56,6 @@ public class JsonReadWriteSystem : MonoBehaviour
             }
         }
 
-        /*
-        playerData.AddNewLevelData();
-        playerData.AddNewLevelData();
-        playerData.AddNewLevelData();
-        playerData.AddNewLevelData();
-        playerData.AddNewLevelData();
-        playerData.AddNewLevelData();
-        playerData.AddNewLevelData();
-        */
     }
 
     private void Start()
@@ -82,12 +70,6 @@ public class JsonReadWriteSystem : MonoBehaviour
             ResetData();
         }
 
-        
-
-        /*if (Input.GetKeyDown(KeyCode.T))
-        {
-            playerData.AddNewLevelData();
-        }*/
 
     }
 
@@ -142,9 +124,6 @@ public class JsonReadWriteSystem : MonoBehaviour
 
     public void ResetData()
     {
-        //playerData.lastCheckPoint = Vector3.zero;
-        //playerData.cherriesQty = 0;
-        //TODO: FIX ABOVE!
         playerData.ResetData();
         Save();
     }
@@ -156,7 +135,6 @@ public class JsonReadWriteSystem : MonoBehaviour
 
     private void OnDestroy()
     {
-        playerData.PrintCollectableDataList();
         Save();
     }
 
@@ -170,12 +148,23 @@ public class JsonReadWriteSystem : MonoBehaviour
 
     private void CompleteLevel()
     {
+        playerData.ResetCheckPoint(currentLvlIndex);
         playerData.ChangeBoolAtIndex(currentLvlIndex, true);
     }
 
     private void UpdateCollectableData(Dictionary<CollectableNames, int> collectableQty_)
     {
         playerData.SaveCollectableData(collectableQty_);
+    }
+
+    private void UpdateTimerData(float time)
+    {
+        playerData.SaveTimerData(currentLvlIndex,time);
+    }
+
+    public float GetCurrentLevelTime()
+    {
+        return playerData.arrayOfLevels[currentLvlIndex].timer;
     }
 
     #region ObserverSubscription
@@ -185,6 +174,7 @@ public class JsonReadWriteSystem : MonoBehaviour
         LoadNextLevel.finishLevelAction += CompleteLevel;
         PlayerMovement.updateSpawnAction += UpdateLastPosition;
         CollectableManager.saveDataAction += UpdateCollectableData;
+        TimerManager.saveTimeDataAction += UpdateTimerData;
     }
 
     private void OnDisable()
@@ -193,6 +183,7 @@ public class JsonReadWriteSystem : MonoBehaviour
         LoadNextLevel.finishLevelAction -= CompleteLevel;
         PlayerMovement.updateSpawnAction -= UpdateLastPosition;
         CollectableManager.saveDataAction -= UpdateCollectableData;
+        TimerManager.saveTimeDataAction -= UpdateTimerData;
     }
     #endregion
 }

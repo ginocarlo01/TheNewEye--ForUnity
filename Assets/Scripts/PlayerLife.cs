@@ -26,10 +26,6 @@ public class PlayerLife : MonoBehaviour
 
     private void RestartLevel()
     {
-        // Save game data using JsonReadWriteSystem.
-        //JsonReadWriteSystem.INSTANCE.Save();
-        //TODO: ABOVE!
-        // Reload the current scene.
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

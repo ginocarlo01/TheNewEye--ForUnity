@@ -18,6 +18,7 @@ public class PlayerData : MonoBehaviour
     public struct LevelData
     {
         public Vector3 lastLocation;
+        public float timer;
         public bool levelCompleted;
     }
 
@@ -41,7 +42,6 @@ public class PlayerData : MonoBehaviour
         int i = 0;
         foreach (CollectableNames key in keysToRemove)
         {
-            Debug.Log(key + ": " + collectableQty_[key]);
             collectableDataList.Add(new CollectableData
             {
                 collectableName = key,
@@ -51,17 +51,36 @@ public class PlayerData : MonoBehaviour
         }
     }
 
-    public void PrintCollectableDataList()
-    {
-        Debug.Log("Collectable Data List:");
 
-        foreach (CollectableData data in collectableDataList)
+    public void SaveTimerData(int index, float time)
+    {
+        if (index >= 0 && index < arrayOfLevels.Count)
         {
-            Debug.Log("Collectable Name: " + data.collectableName + ", Quantity: " + data.quantity);
+            LevelData data = arrayOfLevels[index];
+            data.timer = time;
+            arrayOfLevels[index] = data;
         }
+        else
+        {
+            Debug.LogError("Invalid index.");
+        }
+
+        Debug.Log("Timer at level " + index + " is " + arrayOfLevels[index].timer);
     }
 
-
+    public void ResetCheckPoint(int index)
+    {
+        if (index >= 0 && index < arrayOfLevels.Count)
+        {
+            LevelData data = arrayOfLevels[index];
+            data.lastLocation = Vector3.zero;
+            arrayOfLevels[index] = data;
+        }
+        else
+        {
+            Debug.LogError("Invalid index.");
+        }
+    }
 
     public void ChangeBoolAtIndex(int index, bool newBool)
     {
@@ -79,16 +98,9 @@ public class PlayerData : MonoBehaviour
 
     public void ResetData()
     {
-        for (int i = 0; i < arrayOfLevels.Count; i++)
-        {
-            LevelData newData = new LevelData
-            {
-                lastLocation = Vector3.zero,
-                levelCompleted = false
-            };
+        arrayOfLevels.Clear();
 
-            arrayOfLevels[i] = newData;
-        }
+        collectableDataList.Clear();
     }
 
     public void AddNewLevelData()
@@ -96,8 +108,9 @@ public class PlayerData : MonoBehaviour
         arrayOfLevels.Add(new LevelData
         {
             lastLocation = Vector3.zero,
+            timer = 0,
             levelCompleted = false
-        });
+        }); ;
     }
 
     public void AddNewCollectableData()

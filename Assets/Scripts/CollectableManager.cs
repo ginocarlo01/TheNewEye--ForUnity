@@ -32,7 +32,6 @@ public class CollectableManager : MonoBehaviour
 
         foreach (var collectableData in collectableDataArray)
         {
-            Debug.Log("is going to add to the dict");
             collectableQty.Add(collectableData.collectableName, collectableData.quantity);
             updateUICollectable?.Invoke(collectableData.collectableName, collectableData.quantity);
         }
@@ -62,6 +61,7 @@ public class CollectableManager : MonoBehaviour
         Collectable.collectedAction += UpdateCollectableQty;
         PlayerLife.playerDeath += CleanCollectableData;
         CheckPoint.saveCheckPointAction += SaveDataCheckPoint;
+        LoadNextLevel.finishLevelAction += SaveDataCheckPoint;
     }
 
     private void OnDisable()
@@ -69,6 +69,7 @@ public class CollectableManager : MonoBehaviour
         Collectable.collectedAction -= UpdateCollectableQty;
         PlayerLife.playerDeath -= CleanCollectableData;
         CheckPoint.saveCheckPointAction -= SaveDataCheckPoint;
+        LoadNextLevel.finishLevelAction -= SaveDataCheckPoint;
     }
     #endregion
 
@@ -90,12 +91,14 @@ public class CollectableManager : MonoBehaviour
             collectableQty[key] = 0;
         }
 
-        //JsonReadWriteSystem.INSTANCE.playerData.arrayOfLevels[JsonReadWriteSystem.INSTANCE.currentLvlIndex].fruitsQty = 0;
-        
-        //todo: fix the json instance above
     }
 
     public void SaveDataCheckPoint(Vector3 uselessData)
+    {
+        saveDataAction?.Invoke(collectableQty);
+    }
+
+    public void SaveDataCheckPoint()
     {
         saveDataAction?.Invoke(collectableQty);
     }

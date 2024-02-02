@@ -1,3 +1,7 @@
+/*
+ * Written by: ginocarlo01
+ */
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,9 +27,7 @@ public class PauseWindowGame : MonoBehaviour
 
     public void HandleStartButtonOnClickEvent()
     {
-        //TransitionManager.Instance().Transition(transition, startTransitionDelay);
         pauseSignal.Raise();
-        
     }
 
     public void HandleOptionsButtonOnClickEvent()

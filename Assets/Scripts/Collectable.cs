@@ -22,8 +22,6 @@ public class Collectable : MonoBehaviour
             
             collectedAction?.Invoke(collectableName, qty);
             collectedActionSFX?.Invoke(collectedSFX);
-            //JsonReadWriteSystem.INSTANCE.playerData.arrayOfLevels[JsonReadWriteSystem.INSTANCE.currentLvlIndex].fruitsQty = qty; //TODO: there is no need to update this every time we collect one, we just need to do this once we ie
-            //TODO: FIX THE LINE ABOVE!
 
             this.gameObject.SetActive(false);
         }

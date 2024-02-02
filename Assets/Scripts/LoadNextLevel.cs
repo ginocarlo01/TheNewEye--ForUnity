@@ -44,8 +44,6 @@ public class LoadNextLevel : MonoBehaviour
     private void CompleteLevel()
     {
         finishLevelAction?.Invoke();
-        Debug.Log("trocou o level completed");
-        Debug.Log("novo level completed: " + JsonReadWriteSystem.INSTANCE.playerData.arrayOfLevels[JsonReadWriteSystem.INSTANCE.currentLvlIndex].levelCompleted);
         SceneManager.LoadScene(nextLevelName);
     }
     

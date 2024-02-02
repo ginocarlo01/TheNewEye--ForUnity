@@ -5,14 +5,11 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI cherryCount;
 
-    public static UIManager instance;
-
-    private void Awake() { instance = this; }
+    [SerializeField] public TextMeshProUGUI timerCounter;
 
     private void Start()
     {
         if(cherryCount == null) { Debug.LogWarning("Cherry count text is null!"); }
-        //cherryCount.text = "x" + "0";
     }
 
     #region ObserverSubscription
@@ -28,7 +25,7 @@ public class UIManager : MonoBehaviour
     #endregion
 
     public void UpdateCollectableQty(CollectableNames collectableNames, int qty) {
-        Debug.Log("He was heard!" + qty);
+        
         cherryCount.text = "x" + qty.ToString();
 
     }

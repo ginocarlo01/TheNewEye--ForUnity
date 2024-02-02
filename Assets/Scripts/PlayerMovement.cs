@@ -343,7 +343,6 @@ public class PlayerMovement : MonoBehaviour
             }
             else
             {
-                //JsonReadWriteSystem.INSTANCE.playerData.arrayOfLevels[JsonReadWriteSystem.INSTANCE.currentLvlIndex].lastLocation = transform.position;
                 updateSpawnAction?.Invoke(transform.position);
             }
 
