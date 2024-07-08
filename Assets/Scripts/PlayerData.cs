@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -82,7 +83,7 @@ public class PlayerData : MonoBehaviour
         }
     }
 
-    public void ChangeBoolAtIndex(int index, bool newBool)
+    public void ChangeLevelCompletedAtIndex(int index, bool newBool)
     {
         if (index >= 0 && index < arrayOfLevels.Count)
         {
@@ -120,6 +121,63 @@ public class PlayerData : MonoBehaviour
             collectableName = CollectableNames.RedCherry,
             quantity = 0
         }) ;
+    }
+
+    public void MoveLevelData(int currentIndex, int newIndex)
+    {
+        if(currentIndex >= 0 && currentIndex < arrayOfLevels.Count && newIndex >= 0 && newIndex < arrayOfLevels.Count)
+        {
+            LevelData data = arrayOfLevels[currentIndex];
+
+            arrayOfLevels[newIndex] = data;
+
+            data.timer = 0;
+            data.lastLocation = Vector3.zero;
+            data.levelCompleted = false;
+
+            arrayOfLevels[currentIndex] = data;
+        }
+        else
+        {
+            Debug.Log("Wrong index");
+        }
+    }
+
+    public void RemoveLevelData(int index)
+    {
+        if(index >= 0 && index < arrayOfLevels.Count)
+        {
+            LevelData data = arrayOfLevels[index];
+
+            data.timer = 0;
+            data.lastLocation = Vector3.zero;
+            data.levelCompleted = false;
+
+            arrayOfLevels[index] = data;
+        }
+    }
+
+    public void CompareLevelData(int original, int comp)
+    {
+        if (original >= 0 && original < arrayOfLevels.Count && comp >= 0 && comp < arrayOfLevels.Count)
+        {
+
+            if (arrayOfLevels[original].timer > arrayOfLevels[comp].timer && arrayOfLevels[comp].levelCompleted)
+            {
+                LevelData data = arrayOfLevels[original];
+
+                data.timer = arrayOfLevels[comp].timer;
+
+                arrayOfLevels[original] = data;
+
+                RemoveLevelData(comp);
+
+            }
+        }
+        else
+        {
+            Debug.Log("Wrong index");
+        }
     }
 
 }

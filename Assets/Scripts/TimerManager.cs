@@ -11,6 +11,9 @@ public class TimerManager : MonoBehaviour
     UIManager uiManager;
 
     public static Action<float> saveTimeDataAction;
+    public static Action<float> saveCompleteLevelTimeDataAction;
+
+    public static Action finishLevelAction;
 
     public bool paused;
 
@@ -22,7 +25,6 @@ public class TimerManager : MonoBehaviour
     private void InitializeTimer()
     {
         timer = JsonReadWriteSystem.INSTANCE.GetCurrentLevelTime();
-        Debug.Log(timer);
     }
 
     void Update()
@@ -47,13 +49,13 @@ public class TimerManager : MonoBehaviour
     private void OnEnable()
     {
         CheckPoint.saveCheckPointAction += SaveTimeData;
-        LoadNextLevel.finishLevelAction += SaveTimeData;
+        LoadNextLevel.finishLevelAction += SaveCompleteLevelTimeData;
     }
 
     private void OnDisable()
     {
         CheckPoint.saveCheckPointAction -= SaveTimeData;
-        LoadNextLevel.finishLevelAction -= SaveTimeData;
+        LoadNextLevel.finishLevelAction -= SaveCompleteLevelTimeData;
     }
     #endregion
 
@@ -65,5 +67,11 @@ public class TimerManager : MonoBehaviour
     private void SaveTimeData()
     {
         saveTimeDataAction?.Invoke(timer);
+    }
+
+    private void SaveCompleteLevelTimeData()
+    {
+        saveCompleteLevelTimeDataAction?.Invoke(timer);
+
     }
 }

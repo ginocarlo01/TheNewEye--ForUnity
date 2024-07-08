@@ -61,7 +61,7 @@ public class CollectableManager : MonoBehaviour
         Collectable.collectedAction += UpdateCollectableQty;
         PlayerLife.playerDeath += CleanCollectableData;
         CheckPoint.saveCheckPointAction += SaveDataCheckPoint;
-        LoadNextLevel.finishLevelAction += SaveDataCheckPoint;
+        TimerManager.finishLevelAction += SaveDataCheckPoint;
     }
 
     private void OnDisable()

@@ -15,7 +15,7 @@ public class JsonReadWriteSystem : MonoBehaviour
 
     public int currentLvlIndex;
 
-    public int qtyOfLevels = 6;
+    public int qtyOfLevels = 6; //must always have +2, one for the init level and for the temp data
 
     public static Action<List<PlayerData.CollectableData>> CollectableDataLoadedAction;
 
@@ -149,7 +149,9 @@ public class JsonReadWriteSystem : MonoBehaviour
     private void CompleteLevel()
     {
         playerData.ResetCheckPoint(currentLvlIndex);
-        playerData.ChangeBoolAtIndex(currentLvlIndex, true);
+        playerData.ChangeLevelCompletedAtIndex(currentLvlIndex, true);
+        //TODO: COMPARAR OS VALORES ATUAIS COM O ÚLTIMO DA LISTA, SE O TIMER FOR MELHOR, SOBRESCREVER
+        playerData.CompareLevelData(currentLvlIndex, playerData.arrayOfLevels.Count - 1);
     }
 
     private void UpdateCollectableData(Dictionary<CollectableNames, int> collectableQty_)
@@ -162,6 +164,12 @@ public class JsonReadWriteSystem : MonoBehaviour
         playerData.SaveTimerData(currentLvlIndex,time);
     }
 
+    private void UpdateCompleteLevelTimerData(float time)
+    {
+        playerData.SaveTimerData(currentLvlIndex, time);
+        CompleteLevel();
+    }
+
     public float GetCurrentLevelTime()
     {
         return playerData.arrayOfLevels[currentLvlIndex].timer;
@@ -171,19 +179,21 @@ public class JsonReadWriteSystem : MonoBehaviour
     private void OnEnable()
     {
         CheckPoint.saveCheckPointAction += UpdateLastPosition;
-        LoadNextLevel.finishLevelAction += CompleteLevel;
+        //LoadNextLevel.finishLevelAction += CompleteLevel;
         PlayerMovement.updateSpawnAction += UpdateLastPosition;
         CollectableManager.saveDataAction += UpdateCollectableData;
         TimerManager.saveTimeDataAction += UpdateTimerData;
+        TimerManager.saveCompleteLevelTimeDataAction += UpdateCompleteLevelTimerData;
     }
 
     private void OnDisable()
     {
         CheckPoint.saveCheckPointAction -= UpdateLastPosition;
-        LoadNextLevel.finishLevelAction -= CompleteLevel;
+        //LoadNextLevel.finishLevelAction -= CompleteLevel;
         PlayerMovement.updateSpawnAction -= UpdateLastPosition;
         CollectableManager.saveDataAction -= UpdateCollectableData;
         TimerManager.saveTimeDataAction -= UpdateTimerData;
+        TimerManager.saveCompleteLevelTimeDataAction -= UpdateCompleteLevelTimerData;
     }
     #endregion
 }

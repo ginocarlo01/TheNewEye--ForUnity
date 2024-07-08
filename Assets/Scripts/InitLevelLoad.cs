@@ -20,10 +20,10 @@ public class InitLevelLoad : MonoBehaviour
 
     //Actions
     public static Action<int> playerEnteredDoor;
+    public static Action<float> playerEnteredDoorAlreadyCompleted;
     public static Action playerEnteredLevel;
     public static Action<SFX> playerEnterActionSFX;
     [SerializeField] private SFX playerEnterSFX;
-
 
     private void Start()
     {
@@ -56,17 +56,25 @@ public class InitLevelLoad : MonoBehaviour
     private void MoveToLevel()
     {
         animator.Play(endDoor.name);
+        //TODO: transfere os dados do nível para o fim da lista 
+        JsonReadWriteSystem.INSTANCE.playerData.MoveLevelData(levelIndex, JsonReadWriteSystem.INSTANCE.playerData.arrayOfLevels.Count-1);
+        JsonReadWriteSystem.INSTANCE.Save();
         TransitionManager.Instance().Transition("lvl" + levelIndex, transition, startDelay);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if(CheckIfLevelIsCompleted(levelIndex))
+        {
+            playerEnteredDoorAlreadyCompleted?.Invoke(JsonReadWriteSystem.INSTANCE.playerData.arrayOfLevels[levelIndex].timer);
+        }
         playerEnteredDoor?.Invoke(levelIndex + 1);
         playerInside = true;
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+        playerEnteredDoorAlreadyCompleted?.Invoke(-1f);
         playerEnteredDoor?.Invoke(-1);
         playerInside = false;
     }
