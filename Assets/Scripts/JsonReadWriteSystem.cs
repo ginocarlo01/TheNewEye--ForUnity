@@ -115,9 +115,9 @@ public class JsonReadWriteSystem : MonoBehaviour
 
     public void Load()
     {
-        Debug.Log("Load done");
+        //Debug.Log("Load done");
         string json = ReadFromFile(fileName);
-        Debug.Log(fileName + " path " + GetFilePath(fileName));
+        //Debug.Log(fileName + " path " + GetFilePath(fileName));
         JsonUtility.FromJsonOverwrite(json, playerData);
 
     }
