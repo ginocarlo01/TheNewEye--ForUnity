@@ -15,7 +15,6 @@ public class PlayerInput : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            Debug.Log(throwAction);
             throwAction?.ThrowObject();
         }
     }

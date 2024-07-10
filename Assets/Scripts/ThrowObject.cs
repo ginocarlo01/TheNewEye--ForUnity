@@ -6,7 +6,7 @@ public class ThrowObject : MonoBehaviour, IThrowAction
 {
     PlayerMovement pm;
 
-    [SerializeField] Transform spawnObjectPos;
+    [SerializeField] Transform spawnObjectPosLeft, spawnObjectPosRight;
     
     [SerializeField] GameObject spawnObject;
 
@@ -31,11 +31,9 @@ public class ThrowObject : MonoBehaviour, IThrowAction
 
         int lookingRight = pm.LookingRight;
 
-        Transform newPosition = spawnObjectPos;
+        Vector3 newPosition = lookingRight > 0 ? spawnObjectPosRight.position : spawnObjectPosLeft.position;
 
-        newPosition.transform.position = new Vector3(spawnObjectPos.position.x * lookingRight, spawnObjectPos.position.y,spawnObjectPos.position.z);    
-
-        GameObject newObject = Instantiate(spawnObject, newPosition.position, newPosition.rotation);
+        GameObject newObject = Instantiate(spawnObject, newPosition, this.transform.rotation);
 
         newObject.GetComponent<TrampolineProjectile>().Speed =  objectSpeed * lookingRight;
     }
