@@ -35,6 +35,12 @@ public class ThrowObject : MonoBehaviour, IThrowAction
 
         GameObject newObject = Instantiate(spawnObject, newPosition, this.transform.rotation);
 
-        newObject.GetComponent<TrampolineProjectile>().Speed =  objectSpeed * lookingRight;
+        TrampolineProjectileController tp = newObject.GetComponent<TrampolineProjectileController>();
+
+        tp.Init(objectSpeed * lookingRight, this.gameObject);
+
+        
+
+
     }
 }

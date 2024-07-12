@@ -129,6 +129,7 @@ MonoBehaviour:
   startMovement: 0
   angleRight: 90
   angleLeft: 270
+  maxDistanceToPlayer: 10
 --- !u!50 &7100352640554546758
 Rigidbody2D:
   serializedVersion: 4
