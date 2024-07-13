@@ -18,14 +18,19 @@ public class Trampoline : MonoBehaviour
     {
         if(collision.gameObject.tag == "Player")
         {
-            trampolineActionSFX?.Invoke(trampolineSFX);
-            animator.SetBool("collideToPlayer", true);
-            collision.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.up * bounce, ForceMode2D.Impulse); //apply force to the player
+            CollideWithPlayer(collision);
         }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        animator.SetBool("collideToPlayer", false);
+        if (animator) animator.SetBool("collideToPlayer", false);
+    }
+
+    public void CollideWithPlayer(Collision2D collision)
+    {
+        trampolineActionSFX?.Invoke(trampolineSFX);
+        if (animator) animator.SetBool("collideToPlayer", true);
+        collision.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.up * bounce, ForceMode2D.Impulse); //apply force to the player
     }
 }
