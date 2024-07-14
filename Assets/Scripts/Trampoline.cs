@@ -12,7 +12,7 @@ public class Trampoline : MonoBehaviour
 
     public static Action<SFX> trampolineActionSFX;
 
-    private void Start() { animator = GetComponent<Animator>(); }
+    private void Start() { if (!animator) animator = GetComponent<Animator>(); }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {

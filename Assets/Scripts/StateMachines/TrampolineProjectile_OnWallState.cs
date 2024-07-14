@@ -33,7 +33,7 @@ public class TrampolineProjectile_OnWallState : IThrowObjectState
 
         float currentDistanceToPlayer = Vector3.Distance(controller.Player.transform.position, controllerObj.transform.position);
 
-        if (currentDistanceToPlayer > controller.MaxDistanceToPlayer) { controller.Die(); }
+        if (currentDistanceToPlayer > controller.MaxDistanceToPlayer) { controller.ChangeState(); }
     }
 
     private void DisableOldColliders()

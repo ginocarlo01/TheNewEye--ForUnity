@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 1734844164715817466}
   - component: {fileID: 5526855832320399808}
   - component: {fileID: 8640388050961423782}
-  - component: {fileID: 7241413799267842363}
   - component: {fileID: 1304851957019743508}
   m_Layer: 0
   m_Name: SurfaceCollider
@@ -94,27 +93,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bounce: 20
+  animator: {fileID: 4321761583313715815}
   trampolineSFX: 0
---- !u!95 &7241413799267842363
-Animator:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2945640907199737764}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 0ecc0ca92c9aaa141ad0f737c7054e18, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!212 &1304851957019743508
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -180,6 +160,7 @@ GameObject:
   - component: {fileID: 4371477022317941907}
   - component: {fileID: 3145812035412231959}
   - component: {fileID: 7100352640554546758}
+  - component: {fileID: 4321761583313715815}
   m_Layer: 6
   m_Name: PlayerProjectile
   m_TagString: Untagged
@@ -294,7 +275,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 208c2cf90d5475b4ab1561553d95a5fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  followPlayerSpeed: 7
+  followPlayerSpeed: 10
   incrementPlayerSpeedRate: 3
   angleRight: 90
   angleLeft: 270
@@ -324,6 +305,26 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!95 &4321761583313715815
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4966112484337059093}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0ecc0ca92c9aaa141ad0f737c7054e18, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &7015909416054242921
 GameObject:
   m_ObjectHideFlags: 0

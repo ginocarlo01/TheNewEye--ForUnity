@@ -68,11 +68,6 @@ public class TrampolineProjectileController : MonoBehaviour
         currentState.OnBeginState();
     }
 
-    public void Die()
-    {
-        Destroy(this.gameObject);
-    }
-
     public void BackToPlayer()
     {
         Player.GetComponent<ThrowObject>().ReceiveObject();

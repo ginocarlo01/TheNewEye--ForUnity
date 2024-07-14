@@ -24,6 +24,7 @@ public class TrampolineProjectile_BackToPlayerState : IThrowObjectState
     public void OnBeginState()
     {
          controllerObj = controller.gameObject;
+        controller.GetComponent<Animator>().SetTrigger("collideToPlayer");
         controller.rb.bodyType = RigidbodyType2D.Dynamic;
         
     }
@@ -38,7 +39,7 @@ public class TrampolineProjectile_BackToPlayerState : IThrowObjectState
 
         float currentDistanceToPlayer = Vector3.Distance(controller.Player.transform.position, controllerObj.transform.position);
 
-        if (currentDistanceToPlayer > controller.MaxDistanceToPlayer*2) { controller.Die(); }
+        if (currentDistanceToPlayer > controller.MaxDistanceToPlayer*2) { controller.BackToPlayer(); }
 
         if (currentDistanceToPlayer < controller.MinDistanceToPlayer) { controller.BackToPlayer(); }
     }
@@ -46,6 +47,10 @@ public class TrampolineProjectile_BackToPlayerState : IThrowObjectState
     private void MoveToPlayer()
     {
         Vector3 pointToPlayer = (controller.Player.transform.position - controllerObj.transform.position).normalized;
+
+        pointToPlayer.z = 0;
+
+        controllerObj.transform.rotation = Quaternion.LookRotation(Vector3.forward, pointToPlayer);
 
         pointToPlayer *= Mathf.Abs(controller.FollowPlayerSpeed);
 
