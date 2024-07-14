@@ -363,4 +363,4 @@ MonoBehaviour:
   spawnObjectPosLeft: {fileID: 155118089}
   spawnObjectPosRight: {fileID: 1924286370}
   spawnObject: {fileID: 4966112484337059093, guid: bc7fc4c5edf3d704b9ffdec69791a741, type: 3}
-  objectSpeed: 5
+  objectSpeed: 10

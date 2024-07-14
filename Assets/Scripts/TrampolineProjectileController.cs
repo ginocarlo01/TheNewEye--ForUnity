@@ -25,6 +25,7 @@ public class TrampolineProjectileController : MonoBehaviour
     //COMPONENTS
     [SerializeField] private GameObject surfaceCollider;
     [SerializeField] private GameObject blockers;
+    [SerializeField] private GameObject oldSurfaceBlocker;
 
     [HideInInspector]
     public Rigidbody2D rb;
@@ -42,6 +43,7 @@ public class TrampolineProjectileController : MonoBehaviour
     public GameObject Blockers { get => blockers; set => blockers = value; }
     public float MinDistanceToPlayer { get => minDistanceToPlayer; set => minDistanceToPlayer = value; }
     public float FollowPlayerSpeed { get => followPlayerSpeed; set => followPlayerSpeed = value; }
+    public GameObject OldSurfaceBlocker { get => oldSurfaceBlocker; set => oldSurfaceBlocker = value; }
 
     private void Awake()
     {

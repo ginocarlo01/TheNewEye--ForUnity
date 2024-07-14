@@ -24,6 +24,8 @@ public class TrampolineProjectile_ThrownState : IThrowObjectState
         nextState = controller.wallState;
         controller.IsPointingToRightDirection = controller.Speed > 0;
         controllerObj.transform.eulerAngles = controller.IsPointingToRightDirection ? new Vector3(controllerObj.transform.eulerAngles.x, controllerObj.transform.eulerAngles.y, controller.AngleRight) : new Vector3(controllerObj.transform.eulerAngles.x, controllerObj.transform.eulerAngles.y, controller.AngleLeft);
+        controller.OldSurfaceBlocker.transform.localEulerAngles = controller.IsPointingToRightDirection ? new Vector3(controller.OldSurfaceBlocker.transform.eulerAngles.x, controller.OldSurfaceBlocker.transform.eulerAngles.y, controllerObj.transform.eulerAngles.z + 90) : new Vector3(controller.OldSurfaceBlocker.transform.eulerAngles.x, controller.OldSurfaceBlocker.transform.eulerAngles.y, controllerObj.transform.eulerAngles.z + 90);
+
         controller.rb.velocity = new Vector2(controller.Speed, controller.rb.velocity.y);
     }
 

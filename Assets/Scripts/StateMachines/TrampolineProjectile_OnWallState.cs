@@ -41,6 +41,8 @@ public class TrampolineProjectile_OnWallState : IThrowObjectState
         BoxCollider2D collider = controllerObj.GetComponent<BoxCollider2D>();
 
         collider.enabled = false;
+
+       
     }
 
     private void EnableNewColliders()
@@ -58,6 +60,7 @@ public class TrampolineProjectile_OnWallState : IThrowObjectState
 
     private void DisableNewColliders()
     {
+        controller.OldSurfaceBlocker.SetActive(false);
         controller.SurfaceCollider.GetComponent<BoxCollider2D>().enabled = false;
         controller.Blockers.SetActive(false);
 
