@@ -11,7 +11,9 @@ public class TrampolineProjectileController : MonoBehaviour
     public IThrowObjectState currentState;
 
     //VARIABLES
-    [SerializeField] private float speed = 1f;
+    private float speed = 1f;
+    [SerializeField] private float followPlayerSpeed;
+    [SerializeField] private float incrementPlayerSpeedRate = 0.1f;
 
     [SerializeField] private float angleRight=90, angleLeft=270;
 
@@ -39,6 +41,7 @@ public class TrampolineProjectileController : MonoBehaviour
     public bool IsPointingToRightDirection { get => isPointingToRightDirection; set => isPointingToRightDirection = value; }
     public GameObject Blockers { get => blockers; set => blockers = value; }
     public float MinDistanceToPlayer { get => minDistanceToPlayer; set => minDistanceToPlayer = value; }
+    public float FollowPlayerSpeed { get => followPlayerSpeed; set => followPlayerSpeed = value; }
 
     private void Awake()
     {
@@ -72,6 +75,7 @@ public class TrampolineProjectileController : MonoBehaviour
 
     public void BackToPlayer()
     {
+        Player.GetComponent<ThrowObject>().ReceiveObject();
         Destroy(this.gameObject);
     }
 
@@ -84,5 +88,10 @@ public class TrampolineProjectileController : MonoBehaviour
     {
         currentState = currentState.ChangeState();
         currentState.OnBeginState();
+    }
+
+    public void IncreaseProjectileSpeed()
+    {
+        FollowPlayerSpeed += incrementPlayerSpeedRate * Time.deltaTime;
     }
 }

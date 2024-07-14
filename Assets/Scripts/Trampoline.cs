@@ -6,7 +6,7 @@ using UnityEngine;
 public class Trampoline : MonoBehaviour
 {
     [SerializeField] float bounce = 20f;
-    private Animator animator;
+    [SerializeField] protected Animator animator;
 
     [SerializeField] private SFX trampolineSFX;
 
@@ -19,6 +19,7 @@ public class Trampoline : MonoBehaviour
         if(collision.gameObject.tag == "Player")
         {
             CollideWithPlayer(collision);
+            TriggerAnim();
         }
     }
 
@@ -30,7 +31,12 @@ public class Trampoline : MonoBehaviour
     public void CollideWithPlayer(Collision2D collision)
     {
         trampolineActionSFX?.Invoke(trampolineSFX);
-        if (animator) animator.SetBool("collideToPlayer", true);
+        
         collision.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.up * bounce, ForceMode2D.Impulse); //apply force to the player
+    }
+
+    public void TriggerAnim()
+    {
+        if (animator) animator.SetBool("collideToPlayer", true);
     }
 }

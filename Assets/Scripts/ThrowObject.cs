@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ThrowObject : MonoBehaviour, IThrowAction
+public class ThrowObject : MonoBehaviour, IThrowAction, IReceiveAction
 {
     PlayerMovement pm;
 
@@ -11,6 +11,10 @@ public class ThrowObject : MonoBehaviour, IThrowAction
     [SerializeField] GameObject spawnObject;
 
     [SerializeField] float objectSpeed = 5f;
+
+    bool canSpawnObject = true;
+
+    
 
     private void Start()
     {
@@ -22,11 +26,13 @@ public class ThrowObject : MonoBehaviour, IThrowAction
         {
             Debug.LogError($"There is a missing component: {e}");
         }
-        
+        canSpawnObject = true;
     }
 
     void IThrowAction.ThrowObject()
     {
+        if (!canSpawnObject) return;
+
         if(spawnObject ==  null) { Debug.Log("No object selected"); }
 
         int lookingRight = pm.LookingRight;
@@ -39,8 +45,13 @@ public class ThrowObject : MonoBehaviour, IThrowAction
 
         tp.Init(objectSpeed * lookingRight, this.gameObject);
 
-        
+        canSpawnObject = false;
 
 
+    }
+
+    public void ReceiveObject()
+    {
+        canSpawnObject = true;
     }
 }

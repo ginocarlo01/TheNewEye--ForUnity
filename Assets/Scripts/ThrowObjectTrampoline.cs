@@ -9,6 +9,7 @@ public class ThrowObjectTrampoline : Trampoline
         if (collision.gameObject.tag == "Player")
         {
             CollideWithPlayer(collision);
+            TriggerAnim();
             ChangeParentState();
         }
     }
@@ -16,5 +17,12 @@ public class ThrowObjectTrampoline : Trampoline
     private void ChangeParentState()
     {
         GetComponentInParent<TrampolineProjectileController>().ChangeState();
+    }
+
+    public void TriggerAnim()
+    {
+        Debug.Log("Triggered animation");
+        if (!animator) { Debug.Log("There is no animator");  }
+         animator.SetTrigger("collideToPlayer");
     }
 }

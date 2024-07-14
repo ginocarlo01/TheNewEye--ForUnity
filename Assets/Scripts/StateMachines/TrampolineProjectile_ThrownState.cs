@@ -19,7 +19,7 @@ public class TrampolineProjectile_ThrownState : IThrowObjectState
         //allow the object to move
         controllerObj = controller.gameObject;
         controller.IsPointingToRightDirection = controller.Speed > 0;
-        controllerObj.transform.eulerAngles = controller.IsPointingToRightDirection? new Vector3(controllerObj.transform.eulerAngles.x, controllerObj.transform.eulerAngles.y, controller.AngleRight) : new Vector3(controllerObj.transform.eulerAngles.x, controllerObj.transform.eulerAngles.y, controller.AngleLeft);
+        controllerObj.transform.eulerAngles = controller.IsPointingToRightDirection ? new Vector3(controllerObj.transform.eulerAngles.x, controllerObj.transform.eulerAngles.y, controller.AngleRight) : new Vector3(controllerObj.transform.eulerAngles.x, controllerObj.transform.eulerAngles.y, controller.AngleLeft);
         controller.rb.velocity = new Vector2(controller.Speed, controller.rb.velocity.y);
     }
 
@@ -35,10 +35,14 @@ public class TrampolineProjectile_ThrownState : IThrowObjectState
 
     public IThrowObjectState ChangeState()
     {
-        //stop the object from moving 
+        StopMovement();
+        return controller.wallState;
+    }
+
+    private void StopMovement()
+    {
         controller.rb.velocity = new Vector2(0, controller.rb.velocity.y);
         controller.rb.bodyType = RigidbodyType2D.Static;
-        return controller.wallState;
     }
 
 

@@ -23,9 +23,8 @@ public class TrampolineProjectile_BackToPlayerState : IThrowObjectState
 
     public void OnBeginState()
     {
-        //calculate the distance to the player and based on this information decide if its going to be destroyed or not
-        controllerObj = controller.gameObject;
-        Debug.Log("Começou o back to player");
+         controllerObj = controller.gameObject;
+        controller.rb.bodyType = RigidbodyType2D.Dynamic;
         
     }
 
@@ -33,12 +32,26 @@ public class TrampolineProjectile_BackToPlayerState : IThrowObjectState
     {
         if (!controller.Player || !controllerObj) return;
 
-        controllerObj.transform.position = Vector3.MoveTowards(controllerObj.transform.position, controller.Player.transform.position, Mathf.Abs(controller.Speed)*Time.deltaTime);
+        // controllerObj.transform.position = Vector3.MoveTowards(controllerObj.transform.position, controller.Player.transform.position, Mathf.Abs(controller.Speed)*Time.deltaTime);
+        MoveToPlayer();
+        controller.IncreaseProjectileSpeed();
 
         float currentDistanceToPlayer = Vector3.Distance(controller.Player.transform.position, controllerObj.transform.position);
 
-        if (currentDistanceToPlayer > controller.MaxDistanceToPlayer*2) { Debug.Log(currentDistanceToPlayer);  controller.Die(); }
+        if (currentDistanceToPlayer > controller.MaxDistanceToPlayer*2) { controller.Die(); }
 
-        if (currentDistanceToPlayer < controller.MinDistanceToPlayer) { Debug.Log(currentDistanceToPlayer); controller.BackToPlayer(); }
+        if (currentDistanceToPlayer < controller.MinDistanceToPlayer) { controller.BackToPlayer(); }
     }
+
+    private void MoveToPlayer()
+    {
+        Vector3 pointToPlayer = (controller.Player.transform.position - controllerObj.transform.position).normalized;
+
+        pointToPlayer *= Mathf.Abs(controller.FollowPlayerSpeed);
+
+        controller.rb.velocity = new Vector2(pointToPlayer.x, pointToPlayer.y);
+
+    }
+
+    
 }
