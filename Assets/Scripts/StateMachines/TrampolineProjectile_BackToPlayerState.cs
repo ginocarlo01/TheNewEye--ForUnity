@@ -16,11 +16,6 @@ public class TrampolineProjectile_BackToPlayerState : IThrowObjectState
         this.controller = controller;
     }
 
-    public IThrowObjectState ChangeState()
-    {
-        throw new System.NotImplementedException();
-    }
-
     public void OnBeginState()
     {
          controllerObj = controller.gameObject;
@@ -39,9 +34,9 @@ public class TrampolineProjectile_BackToPlayerState : IThrowObjectState
 
         float currentDistanceToPlayer = Vector3.Distance(controller.Player.transform.position, controllerObj.transform.position);
 
-        if (currentDistanceToPlayer > controller.MaxDistanceToPlayer*2) { controller.BackToPlayer(); }
+        if (currentDistanceToPlayer > controller.MaxDistanceToPlayer*2) { controller.ReceiveProjectile(); }
 
-        if (currentDistanceToPlayer < controller.MinDistanceToPlayer) { controller.BackToPlayer(); }
+        if (currentDistanceToPlayer < controller.MinDistanceToPlayer) { controller.ReceiveProjectile(); }
     }
 
     private void MoveToPlayer()
@@ -58,5 +53,10 @@ public class TrampolineProjectile_BackToPlayerState : IThrowObjectState
 
     }
 
-    
+    public IThrowObjectState ChangeState()
+    {
+        return null;
+    }
+
+
 }

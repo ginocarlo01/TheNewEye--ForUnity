@@ -1,14 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ThrowObject : MonoBehaviour, IThrowAction, IReceiveAction
 {
     PlayerMovement pm;
 
-    [SerializeField] Transform spawnObjectPosLeft, spawnObjectPosRight;
-    
+    [SerializeField] GameObject spawnObjectLeft, spawnObjectRight;
+
+    BoxCollider2D colliderLeft, colliderRight;
+
     [SerializeField] GameObject spawnObject;
+
+    [SerializeField] LayerMask maskToBlock;
+
+    TrampolineProjectileController tp;
 
     [SerializeField] float objectSpeed = 5f;
 
@@ -21,6 +28,10 @@ public class ThrowObject : MonoBehaviour, IThrowAction, IReceiveAction
         try
         {
             pm = GetComponentInParent<PlayerMovement>();
+            colliderLeft = spawnObjectLeft.GetComponent<BoxCollider2D>();
+            colliderRight = spawnObjectRight.GetComponent<BoxCollider2D>();
+            colliderLeft.enabled = false;
+            colliderRight.enabled = false;
         }
         catch(MissingComponentException e)
         {
@@ -31,27 +42,41 @@ public class ThrowObject : MonoBehaviour, IThrowAction, IReceiveAction
 
     void IThrowAction.ThrowObject()
     {
-        if (!canSpawnObject) return;
+        if (canSpawnObject && !IsColliding())
+        { 
+            if(spawnObject ==  null) { Debug.Log("No object selected"); }
 
-        if(spawnObject ==  null) { Debug.Log("No object selected"); }
+            int lookingRight = pm.LookingRight;
 
-        int lookingRight = pm.LookingRight;
+            Vector3 newPosition = lookingRight > 0 ? spawnObjectRight.transform.position : spawnObjectLeft.transform.position;
 
-        Vector3 newPosition = lookingRight > 0 ? spawnObjectPosRight.position : spawnObjectPosLeft.position;
+            GameObject newObject = Instantiate(spawnObject, newPosition, this.transform.rotation);
 
-        GameObject newObject = Instantiate(spawnObject, newPosition, this.transform.rotation);
+            tp = newObject.GetComponent<TrampolineProjectileController>();
 
-        TrampolineProjectileController tp = newObject.GetComponent<TrampolineProjectileController>();
+            tp.Init(objectSpeed * lookingRight, this.gameObject);
 
-        tp.Init(objectSpeed * lookingRight, this.gameObject);
-
-        canSpawnObject = false;
-
+            canSpawnObject = false;
+        }
+        else
+        {
+            if (tp)
+            {
+                tp.CallProjectileBack();
+            }
+        }
 
     }
 
     public void ReceiveObject()
     {
         canSpawnObject = true;
+    }
+
+    private bool IsColliding()
+    {
+        bool left = Physics2D.BoxCast(colliderLeft.bounds.center, new Vector3(1.19f, 0.16f, 0.0f), 0f, Vector2.left, .5f, maskToBlock);
+        bool right = Physics2D.BoxCast(colliderRight.bounds.center, new Vector3(1.19f, 0.16f, 0.0f), 0f, Vector2.right, .5f, maskToBlock);
+        return pm.LookingRight > 0 ? right : left;
     }
 }

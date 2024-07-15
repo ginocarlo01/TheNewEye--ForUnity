@@ -31,7 +31,7 @@ public class Trampoline : MonoBehaviour
     public void CollideWithPlayer(Collision2D collision)
     {
         trampolineActionSFX?.Invoke(trampolineSFX);
-        
+
         collision.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.up * bounce, ForceMode2D.Impulse); //apply force to the player
     }
 

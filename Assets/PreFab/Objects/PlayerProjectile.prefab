@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5526855832320399808}
   - component: {fileID: 8640388050961423782}
   - component: {fileID: 1304851957019743508}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SurfaceCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46,9 +46,9 @@ BoxCollider2D:
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_UsedByEffector: 1
+  m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -1.9125377}
+  m_Offset: {x: 0, y: -2.0799632}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -59,7 +59,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 9.500174}
+  m_Size: {x: 1, y: 8.535016}
   m_EdgeRadius: 0
 --- !u!251 &5526855832320399808
 PlatformEffector2D:
@@ -68,15 +68,15 @@ PlatformEffector2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2945640907199737764}
-  m_Enabled: 1
+  m_Enabled: 0
   m_UseColliderMask: 1
   m_ColliderMask:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RotationalOffset: -90
-  m_UseOneWay: 1
+  m_UseOneWay: 0
   m_UseOneWayGrouping: 0
-  m_SurfaceArc: 98.24
+  m_SurfaceArc: 180
   m_UseSideFriction: 0
   m_UseSideBounce: 0
   m_SideArc: 1
@@ -92,7 +92,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22455f9076fc089469b2db94e45ef5a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bounce: 25
+  bounce: 18
   animator: {fileID: 4321761583313715815}
   trampolineSFX: 0
 --- !u!212 &1304851957019743508
@@ -251,7 +251,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.3014598, y: -1.7662529}
+  m_Offset: {x: -0.045398355, y: -2.0715559}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.48548204, y: 0.5152093}
@@ -262,7 +262,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 4.3345013, y: 8.4876795}
+  m_Size: {x: 1.1041827, y: 9.098291}
   m_EdgeRadius: 0
 --- !u!114 &3145812035412231959
 MonoBehaviour:
@@ -277,14 +277,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   followPlayerSpeed: 10
-  incrementPlayerSpeedRate: 3
+  incrementPlayerSpeedRate: 5
   angleRight: 90
   angleLeft: 270
   maxDistanceToPlayer: 10
   minDistanceToPlayer: 0.3
   surfaceCollider: {fileID: 2945640907199737764}
   blockers: {fileID: 7015909416054242921}
-  oldSurfaceBlocker: {fileID: 5373624195750936636}
+  surfaceBlocker: {fileID: 5373624195750936636}
   rb: {fileID: 0}
 --- !u!50 &7100352640554546758
 Rigidbody2D:
@@ -337,7 +337,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8962750238632762709}
   - component: {fileID: 1328178421983681286}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SurfaceBlocker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -397,7 +397,7 @@ GameObject:
   - component: {fileID: 3566380076389746548}
   - component: {fileID: 2016340633232297399}
   - component: {fileID: 7288550545754116583}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Blockers
   m_TagString: Untagged
   m_Icon: {fileID: 0}

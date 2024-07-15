@@ -25,7 +25,7 @@ public class TrampolineProjectileController : MonoBehaviour
     //COMPONENTS
     [SerializeField] private GameObject surfaceCollider;
     [SerializeField] private GameObject blockers;
-    [SerializeField] private GameObject oldSurfaceBlocker;
+    [SerializeField] private GameObject surfaceBlocker;
 
     [HideInInspector]
     public Rigidbody2D rb;
@@ -43,7 +43,7 @@ public class TrampolineProjectileController : MonoBehaviour
     public GameObject Blockers { get => blockers; set => blockers = value; }
     public float MinDistanceToPlayer { get => minDistanceToPlayer; set => minDistanceToPlayer = value; }
     public float FollowPlayerSpeed { get => followPlayerSpeed; set => followPlayerSpeed = value; }
-    public GameObject OldSurfaceBlocker { get => oldSurfaceBlocker; set => oldSurfaceBlocker = value; }
+    public GameObject SurfaceBlocker { get => surfaceBlocker; set => surfaceBlocker = value; }
 
     private void Awake()
     {
@@ -70,7 +70,7 @@ public class TrampolineProjectileController : MonoBehaviour
         currentState.OnBeginState();
     }
 
-    public void BackToPlayer()
+    public void ReceiveProjectile()
     {
         Player.GetComponent<ThrowObject>().ReceiveObject();
         Destroy(this.gameObject);
@@ -91,4 +91,14 @@ public class TrampolineProjectileController : MonoBehaviour
     {
         FollowPlayerSpeed += incrementPlayerSpeedRate * Time.deltaTime;
     }
+
+    public void CallProjectileBack()
+    {
+        //Debug.Log("Is going back to the player");
+        if(currentState == backToPlayerState) { return; }
+        ChangeState();
+        if (currentState == wallState) { ChangeState(); }
+    }
+
+
 }

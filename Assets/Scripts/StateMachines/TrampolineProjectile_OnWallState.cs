@@ -8,6 +8,8 @@ public class TrampolineProjectile_OnWallState : IThrowObjectState
 
     GameObject controllerObj;
 
+    IThrowObjectState nextState;
+
     public TrampolineProjectile_OnWallState(TrampolineProjectileController controller) 
     { 
         this.controller = controller;
@@ -17,11 +19,12 @@ public class TrampolineProjectile_OnWallState : IThrowObjectState
     public IThrowObjectState ChangeState()
     {
         DisableNewColliders();
-        return controller.backToPlayerState;
+        return nextState;
     }
 
     public void OnBeginState()
     {
+        nextState = controller.backToPlayerState;
         controllerObj = controller.gameObject;
         DisableOldColliders();
         EnableNewColliders();
@@ -33,7 +36,7 @@ public class TrampolineProjectile_OnWallState : IThrowObjectState
 
         float currentDistanceToPlayer = Vector3.Distance(controller.Player.transform.position, controllerObj.transform.position);
 
-        if (currentDistanceToPlayer > controller.MaxDistanceToPlayer) { controller.ChangeState(); }
+        //if (currentDistanceToPlayer > controller.MaxDistanceToPlayer) { Debug.Log("Player was too far"); controller.ChangeState(); }
     }
 
     private void DisableOldColliders()
@@ -51,6 +54,7 @@ public class TrampolineProjectile_OnWallState : IThrowObjectState
 
         controller.SurfaceCollider.SetActive(true);
         controller.Blockers.SetActive(true);
+        controller.SurfaceBlocker.SetActive(true);
 
         //change the collision rotation
 
@@ -60,11 +64,10 @@ public class TrampolineProjectile_OnWallState : IThrowObjectState
 
     private void DisableNewColliders()
     {
-        controller.OldSurfaceBlocker.SetActive(false);
+        controller.SurfaceBlocker.SetActive(false);
         controller.SurfaceCollider.GetComponent<BoxCollider2D>().enabled = false;
         controller.Blockers.SetActive(false);
 
     }
-
 
 }

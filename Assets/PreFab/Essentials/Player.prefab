@@ -9,7 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 155118089}
-  m_Layer: 0
+  - component: {fileID: 1408208441}
+  m_Layer: 6
   m_Name: Left
   m_TagString: Untagged
   m_Icon: {fileID: 4162164826716764455, guid: 0000000000000000d000000000000000, type: 0}
@@ -31,6 +32,32 @@ Transform:
   m_Father: {fileID: 230999503}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1408208441
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 155118088}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.23, y: 0.16}
+  m_EdgeRadius: 0
 --- !u!1 &230999502
 GameObject:
   m_ObjectHideFlags: 0
@@ -73,7 +100,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1924286370}
-  m_Layer: 0
+  - component: {fileID: 587074079}
+  m_Layer: 6
   m_Name: Right
   m_TagString: Untagged
   m_Icon: {fileID: 4162164826716764455, guid: 0000000000000000d000000000000000, type: 0}
@@ -95,6 +123,32 @@ Transform:
   m_Father: {fileID: 230999503}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &587074079
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1924286369}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.009103775, y: -0.0060682297}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.18068314, y: 0.16247559}
+  m_EdgeRadius: 0
 --- !u!1 &5725971713576601097
 GameObject:
   m_ObjectHideFlags: 0
@@ -360,7 +414,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cecab48555d1ee4194d828b2150c2f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnObjectPosLeft: {fileID: 155118089}
-  spawnObjectPosRight: {fileID: 1924286370}
+  spawnObjectLeft: {fileID: 155118088}
+  spawnObjectRight: {fileID: 1924286369}
   spawnObject: {fileID: 4966112484337059093, guid: bc7fc4c5edf3d704b9ffdec69791a741, type: 3}
   objectSpeed: 10

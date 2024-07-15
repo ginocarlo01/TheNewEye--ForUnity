@@ -20,8 +20,8 @@ TagManager:
   - UI
   - PlayerProjectile
   - Player
-  - 
-  - 
+  - BlockPlayer
+  - PlayerDetectGround
   - 
   - 
   - 
